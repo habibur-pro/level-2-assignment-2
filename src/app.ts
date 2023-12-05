@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import { studentRoute } from './app/modules/user/user.route';
 const app = express();
 
 // parsers
@@ -8,8 +9,6 @@ app.use(cors());
 
 // apis
 
-app.get('/', (req, res) => {
-  res.json('app is running');
-});
+app.use('/api/users', studentRoute);
 
 export default app;
