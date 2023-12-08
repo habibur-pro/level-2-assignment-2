@@ -14,12 +14,22 @@ const getAllUserFromDB = async () => {
 };
 
 const getSingleUserFromDB = async (userId: number) => {
-  const user = await User.isExistUser(userId);
-  return user;
+  const result = await User.isExistUser(userId);
+  return result;
+};
+
+const updateUserInDB = async (userId: number, updateData: TUser) => {
+  const result = await User.findOneAndUpdate(
+    { userId },
+    { ...updateData },
+    { new: true },
+  );
+  return result;
 };
 
 export const userServices = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
+  updateUserInDB,
 };
