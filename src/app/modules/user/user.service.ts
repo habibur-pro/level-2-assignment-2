@@ -15,10 +15,16 @@ const getAllUserFromDB = async () => {
 
 const getSingleUserFromDB = async (userId: number) => {
   const result = await User.isExistUser(userId);
+  if (!result) {
+    throw new Error('User not found');
+  }
   return result;
 };
 
 const updateUserInDB = async (userId: number, updateData: TUser) => {
+  if (!(await User.isExistUser(userId))) {
+    throw new Error('User not found');
+  }
   const result = await User.findOneAndUpdate(
     { userId },
     { ...updateData },
@@ -27,9 +33,18 @@ const updateUserInDB = async (userId: number, updateData: TUser) => {
   return result;
 };
 
+const deleteUserFromDB = async (userId: number) => {
+  if (!(await User.isExistUser(userId))) {
+    throw new Error('User not found');
+  }
+  const result = await User.deleteOne({ userId });
+  return result;
+};
+
 export const userServices = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
   updateUserInDB,
+  deleteUserFromDB,
 };
