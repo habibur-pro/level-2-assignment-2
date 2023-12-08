@@ -1,4 +1,6 @@
-type TUser = {
+import { Model } from 'mongoose';
+
+export type TUser = {
   userId: number;
   username: string;
   password: string;
@@ -17,4 +19,6 @@ type TUser = {
   };
 };
 
-export default TUser;
+export interface TUserModel extends Model<TUser> {
+  isExistUser(userId: number): Promise<TUser | null>;
+}

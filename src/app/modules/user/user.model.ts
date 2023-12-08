@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
+import { TUserModel, TUser } from './user.interface';
+import bcrypt from 'bcrypt';
 
-const studentSchema = new Schema<TUser>({
+const UserSchema = new Schema<TUser, TUserModel>({
   userId: {
     type: Number,
     unique: true,
@@ -25,5 +27,25 @@ const studentSchema = new Schema<TUser>({
   },
 });
 
-const User = model('user', studentSchema);
-export default User;
+UserSchema.pre('save', async function (next) {
+  const hashedPassword = await bcrypt.hash(this.password, 10);
+  this.password = hashedPassword;
+  next();
+});
+
+// studentSchema.post('save', async function (doc) {
+//   doc.password = '';
+// });
+
+UserSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    delete ret['password'];
+    return ret;
+  },
+});
+UserSchema.statics.isExistUser = async function (userId: number) {
+  const existingUser = await User.findOne({ userId });
+  return existingUser;
+};
+
+export const User = model<TUser, TUserModel>('user', UserSchema);

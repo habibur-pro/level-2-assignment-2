@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { userServices } from './user.service';
 import UserValidationSchema from './user.validation';
 
+// create new user
 const createUser = async (req: Request, res: Response) => {
   const userData = req.body;
   const parseResult = UserValidationSchema.safeParse(userData);
@@ -29,7 +30,7 @@ const createUser = async (req: Request, res: Response) => {
     });
   }
 };
-
+// get all users
 const getAllUser = async (req: Request, res: Response) => {
   try {
     const result = await userServices.getAllUserFromDB();
@@ -47,8 +48,10 @@ const getAllUser = async (req: Request, res: Response) => {
   }
 };
 
+// get user by userId
 const getSingleUser = async (req: Request, res: Response) => {
   const { userId: userIdStr } = req.params;
+  console.log(userIdStr);
   const userId = parseInt(userIdStr);
 
   try {
