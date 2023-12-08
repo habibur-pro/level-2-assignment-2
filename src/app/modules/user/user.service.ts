@@ -1,4 +1,4 @@
-import { TUser } from './user.interface';
+import { TSingleOrder, TUser } from './user.interface';
 import { User } from './user.model';
 
 const createUserIntoDB = async (userData: TUser) => {
@@ -41,10 +41,28 @@ const deleteUserFromDB = async (userId: number) => {
   return result;
 };
 
+// create new order
+const createNewOrderIntoDB = async (
+  userId: number,
+  orderData: TSingleOrder,
+) => {
+  const user = await User.isExistUser(userId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  const result = User.findOneAndUpdate(
+    { userId },
+    { $push: { orders: orderData } },
+    { new: true },
+  );
+  return result;
+};
+
 export const userServices = {
   createUserIntoDB,
   getAllUserFromDB,
   getSingleUserFromDB,
   updateUserInDB,
   deleteUserFromDB,
+  createNewOrderIntoDB,
 };

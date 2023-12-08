@@ -1,5 +1,11 @@
 import { Model } from 'mongoose';
 
+export type TSingleOrder = {
+  productName: string;
+  price: number;
+  quantity: number;
+};
+
 export type TUser = {
   userId: number;
   username: string;
@@ -17,6 +23,7 @@ export type TUser = {
     city: string;
     country: string;
   };
+  orders: Array<TSingleOrder>;
 };
 
 export interface TUserModel extends Model<TUser> {

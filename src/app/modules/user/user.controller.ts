@@ -26,7 +26,10 @@ const createUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'something went wrong',
-      error: error,
+      error: {
+        code: 404,
+        description: 'User not created',
+      },
     });
   }
 };
@@ -40,10 +43,13 @@ const getAllUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    res.status(200).json({
+    res.status(404).json({
       success: false,
       message: 'User not found',
-      data: error,
+      error: {
+        code: 404,
+        description: 'User not found',
+      },
     });
   }
 };
@@ -120,10 +126,35 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+// const create order
+const createNewOrder = async (req: Request, res: Response) => {
+  try {
+    const { userId: userIdStr } = req.params;
+    const userId = parseInt(userIdStr);
+    const oderData = req.body;
+    const result = await userServices.createNewOrderIntoDB(userId, oderData);
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: result,
+    });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      message: 'User not found',
+      error: {
+        code: 404,
+        description: 'User not found',
+      },
+    });
+  }
+};
+
 export const userController = {
   createUser,
   getAllUser,
   getSingleUser,
   updateUser,
   deleteUser,
+  createNewOrder,
 };

@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+const OrderValidationSchema = z.object({
+  productName: z.string(),
+  price: z.number(),
+  quantity: z.number(),
+});
+
 const UserValidationSchema = z.object({
   userId: z.number(),
   username: z.string(),
@@ -17,6 +23,7 @@ const UserValidationSchema = z.object({
     city: z.string(),
     country: z.string(),
   }),
+  Orders: OrderValidationSchema.optional(),
 });
 
 export default UserValidationSchema;
