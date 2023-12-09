@@ -23,10 +23,10 @@ export type TUser = {
     city: string;
     country: string;
   };
-  orders: Array<TSingleOrder>;
+  orders?: Array<TSingleOrder>;
 };
 
-export interface TUserModel extends Model<TUser> {
+export interface TUserModel extends Model<TUser | []> {
   // eslint-disable-next-line no-unused-vars
   isExistUser(userId: number): Promise<TUser | null>;
 }

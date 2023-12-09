@@ -79,7 +79,12 @@ const calculateTotalPriceOfOrder = async (userId: number) => {
     { $match: { userId: userId } },
     { $unwind: '$orders' },
     {
-      $group: { _id: null, totalPrice: { $sum: '$orders.price' } },
+      $group: {
+        _id: null,
+        totalPrice: {
+          $sum: { $multiply: ['$orders.price', '$orders.quantity'] },
+        },
+      },
     },
     {
       $project: { _id: 0 },
