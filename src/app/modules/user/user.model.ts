@@ -2,12 +2,6 @@ import { Schema, model } from 'mongoose';
 import { TUserModel, TUser } from './user.interface';
 import bcrypt from 'bcrypt';
 
-const OrderSchema = {
-  productName: String,
-  price: Number,
-  quantity: Number,
-};
-
 const UserSchema = new Schema<TUser, TUserModel>({
   userId: {
     type: Number,
@@ -31,7 +25,13 @@ const UserSchema = new Schema<TUser, TUserModel>({
     city: String,
     country: String,
   },
-  orders: [OrderSchema],
+  orders: [
+    {
+      productName: String,
+      price: Number,
+      quantity: Number,
+    },
+  ],
 });
 
 UserSchema.pre('save', async function (next) {

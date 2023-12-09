@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const OrderValidationSchema = z.object({
-  productName: z.string(),
+  productName: z.string().trim(),
   price: z.number(),
   quantity: z.number(),
 });
@@ -11,17 +11,17 @@ const UserValidationSchema = z.object({
   username: z.string(),
   password: z.string(),
   fullName: z.object({
-    firstName: z.string(),
-    lastName: z.string(),
+    firstName: z.string().trim(),
+    lastName: z.string().trim(),
   }),
   age: z.number(),
-  email: z.string().email(),
+  email: z.string().email().trim(),
   isActive: z.boolean(),
   hobbies: z.string().array(),
   address: z.object({
-    street: z.string(),
-    city: z.string(),
-    country: z.string(),
+    street: z.string().trim(),
+    city: z.string().trim(),
+    country: z.string().trim(),
   }),
   Orders: OrderValidationSchema.optional(),
 });
