@@ -9,7 +9,10 @@ const OrderValidationSchema = z.object({
 const UserValidationSchema = z.object({
   userId: z.number(),
   username: z.string(),
-  password: z.string(),
+  password: z
+    .string()
+    .min(8, { message: 'password must be 8 character' })
+    .max(16, { message: 'password must be lower the 16 character' }),
   fullName: z.object({
     firstName: z.string().trim(),
     lastName: z.string().trim(),
